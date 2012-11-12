@@ -19,13 +19,28 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include "ScriptPCH.h"
 #include "blackwing_descent.h"
 
 enum eSpell
 {
-    SPELL_ARCANE_ANNIHILATOR = 79710
+    SPELL_ARCANE_ANNIHILATOR            = 79710,
+    SPELL_CHEMICAL_BOMB                 = 80157,
+    SPELL_POISON_SOAKED_SHELL           = 79835,
+    SPELL_GOLEM_INACTIVE                = 78726,
+    SPELL_ELECTRICAL_DISCHARGE          = 79879,
+    SPELL_LIGHTNING_CONDUCTOR           = 79888,
+    SPELL_UNSTABLE_SHIELD               = 79900,
+    SPELL_SHUTTING_DOWN                 = 78746,
+    SPELL_ACQUIRING_TARGET              = 79501,
+    SPELL_BARRIER                       = 79582,
+    SPELL_FLAMETHROWER                  = 79505,
+    SPELL_INCINERATION_SECURITY_MEASURE = 79023,
+    SPELL_POWER_GENERATOR               = 79624
 };
+
+uint32 order = urand(1,4);
 
 class boss_toxitron : public CreatureScript
 {
@@ -45,11 +60,31 @@ public:
         }
 
         InstanceScript* pInstance;
-
+        
+        //Rotation
+        uint32 rotation;
+        uint32 rotationTimer;
+        bool rotationType;
+        
+        //Timer Registration
+        uint32 uiChemicalBombTimer;
+        uint32 uiPoisonSoakedShellTimer;   
+        
         void Reset()
         {
+            rotation = order;
+            rotationType = false;
+            rotationTimer = 45*rotation*IN_MILLISECONDS;
+            
+            if (rotation != 1)
+                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+            else
+                rotationType = true;
+            
             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
             me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_GRIP, true);
+            
+            uiChemicalBombTimer = 20*IN_MILLISECONDS; //Timer richtig?
         }
 
         void EnterCombat(Unit* /*pWho*/) {}
@@ -60,6 +95,25 @@ public:
         {
             if (!UpdateVictim())
                 return;
+            
+            if (uiChemicalBombTimer <= Diff)
+            {
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 150, true))
+                    me->CastSpell(target, SPELL_CHEMICAL_BOMB, true);
+
+                uiChemicalBombTimer = urand(15*IN_MILLISECONDS, 30*IN_MILLISECONDS); //Timer richtig?
+            } else uiChemicalBombTimer -= Diff;
+            
+            if (rotationTimer <= Diff)
+            {
+                if (rotationType)
+                    me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                else
+                    me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                
+                rotationType = !rotationType;
+                rotationTimer = 45*IN_MILLISECONDS;
+            } else rotationTimer -= Diff;
 
             DoMeleeAttackIfReady();
         }
@@ -84,11 +138,29 @@ public:
         }
 
         InstanceScript* pInstance;
+        
+        //Rotation
+        uint32 rotation;
+        uint32 rotationTimer;
+        bool rotationType;
+        
+        //Timer Registration
+        uint32 uiAcquiringTargetTimer;
+        uint32 uiBarrierTimer;
+        uint32 uiFlamethrowerTimer;
 
         void Reset()
         {
+            rotation = order+1 > 4 ? order-3 : order;
+            rotationType = false;
+            rotationTimer = 45*rotation*IN_MILLISECONDS;
+            
+            if (rotation != 1)
+                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+            else
+                rotationType = true;
+            
             me->SetReactState(REACT_PASSIVE);
-            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
             me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_GRIP, true);
         }
@@ -101,6 +173,17 @@ public:
         {
             if (!UpdateVictim())
                 return;
+            
+            if (rotationTimer <= Diff)
+            {
+                if (rotationType)
+                    me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                else
+                    me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                
+                rotationType = !rotationType;
+                rotationTimer = 45*IN_MILLISECONDS;
+            } else rotationTimer -= Diff;
 
             DoMeleeAttackIfReady();
         }
@@ -125,11 +208,26 @@ public:
         }
 
         InstanceScript* pInstance;
+        
+        //Rotation
+        uint32 rotation;
+        uint32 rotationTimer;
+        bool rotationType;
 
+        //Timer Registration
         uint32 uiArcaneAnnihilatorTimer;
 
         void Reset()
         {
+            rotation = order+2 > 4 ? order-2 : order;
+            rotationType = false;
+            rotationTimer = 45*rotation*IN_MILLISECONDS;
+            
+            if (rotation != 1)
+                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+            else
+                rotationType = true;
+
             if (pInstance)
                 pInstance->SetData(DATA_OMNOTRON_DEFENSE_SYSTEM, NOT_STARTED);
 
@@ -168,6 +266,17 @@ public:
 
                 uiArcaneAnnihilatorTimer = urand(5*IN_MILLISECONDS, 7*IN_MILLISECONDS);
             } else uiArcaneAnnihilatorTimer -= Diff;
+            
+            if (rotationTimer <= Diff)
+            {
+                if (rotationType)
+                    me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                else
+                    me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                
+                rotationType = !rotationType;
+                rotationTimer = 45*IN_MILLISECONDS;
+            } else rotationTimer -= Diff;
 
             DoMeleeAttackIfReady();
         }
@@ -192,13 +301,35 @@ public:
         }
 
         InstanceScript* pInstance;
+        
+        //Rotation
+        uint32 rotation;
+        uint32 rotationTimer;
+        bool rotationType;
+        
+        //Timer Registration
+        uint32 uiElectricalDischargeTimer;
+        uint32 uiLightningConductorTimer;
+        uint32 uiUnstableShieldTimer;
 
         void Reset()
         {
+            rotation = order+3 > 4 ? order-1 : order;
+            
+            rotationType = false;
+            rotationTimer = 45*rotation*IN_MILLISECONDS;
+            
+            if (rotation != 1)
+                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+            else
+                rotationType = true;
+            
             me->SetReactState(REACT_PASSIVE);
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
             me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_GRIP, true);
+            
+            uiElectricalDischargeTimer = 12*IN_MILLISECONDS;
         }
 
         void EnterCombat(Unit* /*pWho*/) { }
@@ -209,6 +340,25 @@ public:
         {
             if (!UpdateVictim())
                 return;
+            
+            if (uiElectricalDischargeTimer <= Diff)
+            {
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
+                    me->CastSpell(target, SPELL_ELECTRICAL_DISCHARGE, true);
+
+                uiElectricalDischargeTimer = urand(10*IN_MILLISECONDS, 15*IN_MILLISECONDS);
+            } else uiElectricalDischargeTimer -= Diff;
+            
+            if (rotationTimer <= Diff)
+            {
+                if (rotationType)
+                    me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                else
+                    me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_PASSIVE);
+                
+                rotationType = !rotationType;
+                rotationTimer = 45*IN_MILLISECONDS;
+            } else rotationTimer -= Diff;
 
             DoMeleeAttackIfReady();
         }
@@ -222,3 +372,4 @@ void AddSC_boss_omnotron_defense_system()
     new boss_arcanotron();
     new boss_electron();
 }
+
