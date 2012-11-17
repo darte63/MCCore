@@ -31,6 +31,8 @@ public:
         boss_baron_ashburyAI(Creature* creature) : ScriptedAI(creature)
         {
             pInstance = creature->GetInstanceScript();
+            me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK,true);
+            me->ApplySpellImmune(0, IMMUNITY_ID, 49560, true);
         }
 
         InstanceScript* pInstance;
@@ -84,6 +86,7 @@ public:
                 
                 if (phase == 1 && me->GetHealthPct() <= 25.0f && IsHeroic())
                 {
+                    me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_INTERRUPT_CAST, true);
                     DoCast(me, SPELL_DARK_ARCHANGEL_FORM);
                 }
                 
