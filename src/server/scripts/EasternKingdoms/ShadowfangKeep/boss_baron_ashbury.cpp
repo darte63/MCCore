@@ -91,7 +91,7 @@ public:
                 {
                     phase = 2;
                     me->AddAura(AURA_DARK_ARCHANGEL_FORM_VISUAL, me);
-                    DoCast(me, SPELL_DARK_ARCHANGEL_FORM);
+                    DoCast(me, SPELL_CALAMITY);
                 }      
             }
             
