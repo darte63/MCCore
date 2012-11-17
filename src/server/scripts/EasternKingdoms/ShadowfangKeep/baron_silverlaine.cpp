@@ -8,7 +8,7 @@ enum eSpells {
 enum eSpirits {
     NPC_ODO_THE_BLINDWATCHER            = 50857,
     NPC_RAZORCLAW_THE_BUTCHER           = 50869,
-    NPC_RETHILGORE                      = 50834,
+    NPC_RETHILGORE                      = 3914,
     NPC_WORLF_MASTER_NANDOS             = 50851
 };
 
