@@ -21,7 +21,7 @@ public:
         
         if (action == 1000)
         {
-            creature->ToPlayer()->KilledMonsterCredit(110100, 0);
+            player->KilledMonsterCredit(110100, 0);
             creature->DisappearAndDie();
         }
         
