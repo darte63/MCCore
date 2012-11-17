@@ -11,7 +11,7 @@ public:
     bool OnGossipHello (Player *player, Creature *creature)
     {
         player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Tierchen retten", GOSSIP_SENDER_MAIN, 1000);
-        player->SEND_GOSSIP_MENU(907, pCreature->GetGUID());
+        player->SEND_GOSSIP_MENU(907, creature->GetGUID());
         return true;
     }
 
