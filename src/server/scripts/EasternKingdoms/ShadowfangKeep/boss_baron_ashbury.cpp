@@ -107,8 +107,7 @@ public:
                     uiCalamityTimer = 500; 
                 } else uiCalamityTimer -= Diff;
             }
-            
-            if (phase)
+
             DoMeleeAttackIfReady();
         }
     };
