@@ -84,14 +84,14 @@ public:
                 
                 if (phase == 1 && me->GetHealthPct() <= 25.0f && IsHeroic())
                 {
-                    DoCast(me, DUNGEON_MODE(0, SPELL_DARK_ARCHANGEL_FORM));
+                    DoCast(me, SPELL_DARK_ARCHANGEL_FORM);
                 }
                 
                 if (me->HasAura(SPELL_DARK_ARCHANGEL_FORM) && IsHeroic())
                 {
                     phase = 2;
-                    me->AddAura(DUNGEON_MODE(0, AURA_DARK_ARCHANGEL_FORM_VISUAL), me);
-                    DoCast(me, DUNGEON_MODE(0, SPELL_DARK_ARCHANGEL_FORM));
+                    me->AddAura(AURA_DARK_ARCHANGEL_FORM_VISUAL, me);
+                    DoCast(me, SPELL_DARK_ARCHANGEL_FORM);
                 }      
             }
             
