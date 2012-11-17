@@ -9,7 +9,7 @@ enum eSpells {
     SPELL_STAY_OF_EXECUTION             = 93468,
     SPELL_STAY_OF_EXECUTION_H           = 93468,
     SPELL_DARK_ARCHANGEL_FORM           = 93757,
-    SPELL_CALAMITY                      = 93812
+    SPELL_CALAMITY                      = 93810
 };
 
 enum eAuras {
@@ -39,6 +39,7 @@ public:
         uint32 uiPainAndSufferingTimer;
         uint32 uiAsphyxiateTimer;
         uint32 uiStayOfExecutionTimer;
+        uint32 uiCalamityTimer;
         uint32 phase;
         
         void Reset()
@@ -46,6 +47,7 @@ public:
             uiPainAndSufferingTimer = 10*IN_MILLISECONDS;
             uiAsphyxiateTimer = 45*IN_MILLISECONDS;
             uiStayOfExecutionTimer = 57*IN_MILLISECONDS;
+            uiCalamityTimer = 8*IN_MILLISECONDS;
             phase = 1;
         }
 
@@ -62,7 +64,7 @@ public:
             {
                 if (uiPainAndSufferingTimer <= Diff)
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 150, true))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 150, false))
                         me->CastSpell(target, DUNGEON_MODE(SPELL_PAIN_AND_SUFFERING, SPELL_PAIN_AND_SUFFERING_H), true);
 
                     uiPainAndSufferingTimer = urand(10*IN_MILLISECONDS, 20*IN_MILLISECONDS); 
@@ -71,7 +73,7 @@ public:
                 if (uiAsphyxiateTimer <= Diff)
                 {
                     if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 150, true))
-                        me->CastSpell(target, DUNGEON_MODE(SPELL_ASPHYXIATE, SPELL_ASPHYXIATE_H), true);
+                        me->CastSpell(target, DUNGEON_MODE(SPELL_ASPHYXIATE, SPELL_ASPHYXIATE_H), false);
 
                     uiAsphyxiateTimer = 45*IN_MILLISECONDS; 
                     uiPainAndSufferingTimer = 13*IN_MILLISECONDS; 
@@ -94,13 +96,16 @@ public:
                 {
                     phase = 2;
                     me->AddAura(AURA_DARK_ARCHANGEL_FORM_VISUAL, me);
-                    DoCast(me, SPELL_CALAMITY);
                 }      
             }
             
             if (phase == 2 && IsHeroic())
             {
-                // ToDo: Phase 2
+                if (uiCalamityTimer <= Diff)
+                {
+                    DoCast(me, SPELL_CALAMITY);
+                    uiCalamityTimer = 500; 
+                } else uiCalamityTimer -= Diff;
             }
             
             if (phase)
