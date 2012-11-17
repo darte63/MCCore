@@ -2088,6 +2088,13 @@
         </df>
         <df name="create">
         </df>
+        <df name="mc_updates">
+          <df name="world">
+            <in>2012_11_16_00_creature_loot_template.sql</in>
+            <in>2012_11_16_00_quest_template.sql</in>
+            <in>2012_11_16_01_quest_template.sql</in>
+          </df>
+        </df>
         <df name="updates">
           <df name="auth">
             <df name="already_applied">
@@ -2710,6 +2717,9 @@
               <in>cs_reload.cpp</in>
               <in>cs_titles.cpp</in>
               <in>cs_wp.cpp</in>
+            </df>
+            <df name="Custom">
+              <in>quests_quick_and_dirty.cpp</in>
             </df>
             <df name="EasternKingdoms">
               <df name="AlteracValley">
