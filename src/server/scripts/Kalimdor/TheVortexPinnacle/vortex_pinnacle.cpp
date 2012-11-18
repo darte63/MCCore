@@ -46,6 +46,9 @@ public:
             case GOSSIP_ACTION_INFO_DEF+2:
                 player->TeleportTo(657, -1189.04f, 475.85f, 634.78f, 0.46f);
             break;
+            case GOSSIP_ACTION_INFO_DEF+3:
+                player->TeleportTo(657, -758.98f, -38.71f, 640.1f, 2.06f);
+            break;
         }
         return true;
     }
@@ -53,12 +56,12 @@ public:
     bool OnGossipHello(Player* player, Creature* creature)
     {
         InstanceScript* instance = creature->GetInstanceScript();
+        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Bring mich zu Plattform 1", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+3);        
+        //if (instance && instance->GetData(DATA_GRAND_VIZIER_ERTAN)==DONE)
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Bring mich zu Plattform 2", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
-        if (instance && instance->GetData(DATA_GRAND_VIZIER_ERTAN)==DONE)
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Teleport me to platform 2", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
-
-        if (instance && instance->GetData(DATA_ALTAIRUS)==DONE)
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Teleport me to platform 3", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
+        //if (instance && instance->GetData(DATA_ALTAIRUS)==DONE)
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Bring mich zu Plattform 3", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
 
         player->SEND_GOSSIP_MENU(2475, creature->GetGUID());
         return true;

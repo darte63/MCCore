@@ -68,6 +68,7 @@ void AddSC_currency_commandscript();
 void AddSC_quest_commandscript ();
 void AddSC_reload_commandscript ();
 void AddSC_credits_commandscript ();
+void AddSC_mcwow_commandscript();
 
 #ifdef SCRIPTS
 //world
@@ -197,6 +198,8 @@ void AddSC_boss_vectus();
 void AddSC_instance_scholomance();
 void AddSC_shadowfang_keep();//Shadowfang keep
 void AddSC_instance_shadowfang_keep();
+void AddSC_boss_baron_ashbury();
+void AddSC_boss_baron_silverlaine();
 void AddSC_boss_magistrate_barthilas();//Stratholme
 void AddSC_boss_maleki_the_pallid();
 void AddSC_boss_nerubenkan();
@@ -736,6 +739,7 @@ void AddCommandScripts ()
     AddSC_currency_commandscript();
     AddSC_quest_commandscript();
     AddSC_reload_commandscript();
+    AddSC_mcwow_commandscript();
 }
 
 void AddWorldScripts ()
@@ -877,6 +881,8 @@ void AddEasternKingdomsScripts ()
     AddSC_boss_vectus();
     AddSC_instance_scholomance();
     AddSC_shadowfang_keep();//Shadowfang keep
+    AddSC_boss_baron_ashbury();
+    AddSC_boss_baron_silverlaine();
     AddSC_instance_shadowfang_keep();
     AddSC_boss_magistrate_barthilas();//Stratholme
     AddSC_boss_maleki_the_pallid();
@@ -1362,14 +1368,13 @@ void AddBattlegroundScripts ()
 }
 
 #ifdef SCRIPTS
-/* This is where custom scripts' loading functions should be declared. */
-
+void quests_quick_and_dirty();
 #endif
 
 void AddCustomScripts ()
 {
 #ifdef SCRIPTS
-    /* This is where custom scripts should be added. */
+    quests_quick_and_dirty();
 
 #endif
 }
