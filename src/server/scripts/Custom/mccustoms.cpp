@@ -15,10 +15,7 @@ public:
         {
             case 9:
                 plr->learnSpell(69046,false);  //Packhobgoblin
-                if (plr->getClass() == 11)
-                    plr->TeleportTo(1, 10311.2f, 831.16f, 1326.4f, 5.69f, 0);
-                else
-                    plr->TeleportTo(0, -8914.7f, -134.16f, 80.6f, 5.2f, 0);
+                plr->TeleportTo(1, -618.7f, -4251.16f, 38.8f, 0.0f, 0);
                 break;
                 
             case 22:
