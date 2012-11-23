@@ -31,6 +31,7 @@ void AddSC_example_misc ();
 //player scripts
 void AddSC_player_mage_scripts ();
 void AddSC_example_commandscript ();
+void AddSC_mccustoms();
 
 // spells
 void AddSC_deathknight_spell_scripts ();
@@ -1334,6 +1335,7 @@ void AddNorthrendScripts ()
     AddSC_boss_corla_herald_of_twilight();
     AddSC_boss_karsh_steelbender();
     AddSC_boss_ascendant_lord_obsidius();
+    AddSC_mccustoms();
 
 #endif
 }
