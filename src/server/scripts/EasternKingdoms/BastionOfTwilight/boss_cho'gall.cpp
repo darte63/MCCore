@@ -57,12 +57,15 @@ public:
         Creature *firePortal;
         Creature *shadowPortal;
         uint32 uiFuryOfChogallTimer;
-        uint32 uiPortalSpawnTimer;
         uint32 uiPortalTimer;
         uint32 uiAddCounter;
+        uint32 uiEnrageTimer;
 
         void Reset() {
             uiFuryOfChogallTimer = 15 * IN_MILLISECONDS;
+            uiPortalTimer = 10*IN_MILLISECONDS;
+            uiAddCounter = 0;
+            uiEnrageTimer = 600*IN_MILLISECONDS;
         }
 
         void EnterCombat(Unit* /*pWho*/) {
@@ -72,7 +75,6 @@ public:
             if (!UpdateVictim())
                 return;
 
-
             //Fury of Chogall
             if (uiFuryOfChogallTimer <= Diff) {
                 if (Unit * target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 150, false))
@@ -80,26 +82,27 @@ public:
                 uiFuryOfChogallTimer = urand(10 * IN_MILLISECONDS, 20 * IN_MILLISECONDS);
             } else uiFuryOfChogallTimer -= Diff;
             
-            if (uiPortalSpawnTimer <= Diff) {
+            if (uiEnrageTimer <= Diff) {
+                DoCast(me,26662);
+                uiEnrageTimer = 600*IN_MILLISECONDS;
+            } else uiEnrageTimer -= Diff;
+            
+            if (uiPortalTimer <= Diff) {
                 Creature* fireElemental =
                         me->SummonCreature(NPC_FIRE_ELEMENTAR,
                         me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 120000);
-                if (Unit * target = SelectTarget(SELECT_TARGET_RANDOM, 0, 150, false))
-                        fireElemental->Attack(target, true);
 
                 Creature* shadowBiest =
                         me->SummonCreature(NPC_SHADOW_BIEST,
                         me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 120000);
-                if (Unit * target = SelectTarget(SELECT_TARGET_RANDOM, 0, 150, false))
-                        shadowBiest->Attack(target, true);
                 
                 uiAddCounter++;
                 
                 if (uiAddCounter < 3)
-                    uiPortalSpawnTimer = 5 * IN_MILLISECONDS;
+                    uiPortalTimer = 5 * IN_MILLISECONDS;
                 else
-                    uiPortalSpawnTimer = 90 * IN_MILLISECONDS;
-            }
+                    uiPortalTimer = 90 * IN_MILLISECONDS;
+            } else uiPortalTimer -= Diff;
             DoMeleeAttackIfReady();
         }
     };
