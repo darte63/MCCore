@@ -58,7 +58,7 @@ public:
                 uiHydrolanceTimer -= uiDiff;
             if (uiWaterBombTimer <= uiDiff)
             {
-                uiHydrolanceTimer = 11000;
+                uiWaterBombTimer = 15000;
                 DoCast(SPELL_WATERBOMB);
             }
             else
