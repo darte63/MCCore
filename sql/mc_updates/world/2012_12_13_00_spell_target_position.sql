@@ -1,0 +1,2 @@
+--  Fixe Portal nach Schattenhochland
+INSERT INTO `spell_target_position` (`id`, `target_position_x`, `target_position_y`, `target_position_z`, `target_orientation`) VALUES (82621, -3681.196533, -5310.057, 35.76, 1.0346);
