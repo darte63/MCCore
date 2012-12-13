@@ -17,7 +17,7 @@
 #define TARGETS_10_RH 8
 #define TARGETS_25_RH 8
 
-enum Spells {
+enum eSpells {
     // Chogall
     SPELL_FURY_CHOGALL = 82524, // Seulement le tank
     // P1
@@ -49,7 +49,7 @@ enum Spells {
     SPELL_FIRE_POWER = 93245,
 };
 
-enum Nums {
+enum eNums {
     NPC_BLOOD_OF_THE_OLD_GOD = 43707, // Mob
     NPC_CORRUPTING_ADHERENT = 43622,
     NPC_CREATION_ASSOMBRIE = 44045,
@@ -59,7 +59,7 @@ enum Nums {
     GO_CHOGALL_FLOOR = 205898, // Floor Chogall -> Sinestra
 };
 
-enum Events {
+enum eEvents {
     EVENT_FLAME_ORDERS,
     EVENT_FLAMING_DESTRUCTION,
     EVENT_SHADOW_ORDERS,
@@ -75,14 +75,14 @@ enum Events {
     EVENT_NEW_PHASE,
 };
 
-enum Phases {
+enum ePhases {
     PHASE_FLAME_ORDERS,
     PHASE_SHADOW_ORDERS,
     PHASE_NON,
     PHASE_FINAL,
 };
 
-enum Texts {
+enum eTexts {
     SAY_AGGRO = 1,
     SAY_SUMMON = 2,
     SAY_LOW_HEALTH = 8,
@@ -157,7 +157,7 @@ public:
             me->SetReactState(REACT_AGGRESSIVE);
             spellsLocked = false;
             UpdatePhase(PHASE_NON);
-            DespawnMinions();
+            //DespawnMinions();
 
             _Reset();
             instance->SetData(DATA_CHOGALL_EVENT, NOT_STARTED);
@@ -257,7 +257,7 @@ public:
                             break;
                     }
                 }
-            };
+            }
 
             while (uint32 eventId = events.ExecuteEvent()) {
                 switch (eventId) {
@@ -365,7 +365,7 @@ public:
         void JustDied(Unit* /*killer*/) {
 
             _JustDied();
-                    DespawnMinions();
+                    //DespawnMinions();
 
                     instance->SetData(DATA_CHOGALL_EVENT, DONE);
         }
@@ -391,18 +391,19 @@ public:
                 me->SetReactState(REACT_PASSIVE);
                     me->AttackStop();
             }
+        }
 
-        inline void DespawnMinions() {
+        /*inline void DespawnMinions() {
 
             DespawnCreatures(NPC_CORRUPTING_ADHERENT);
                     DespawnCreatures(NPC_CREATION_ASSOMBRIE);
                     DespawnCreatures(NPC_SHADOW_LORD);
                     DespawnCreatures(NPC_FIRE_LORD);
                     DespawnCreatures(NPC_SPIKED_TENTACLE);
-        }
+        }*/
 
-        void DespawnCreatures(uint32 entry) {
-            /*std::list<Creature*> creatures;
+        /*void DespawnCreatures(uint32 entry) {
+            std::list<Creature*> creatures;
                     GetCreatureListWithEntryInGrid(creatures, me, entry, 200.0f);
 
             if (creatures.empty())
