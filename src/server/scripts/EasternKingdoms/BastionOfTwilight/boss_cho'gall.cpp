@@ -300,12 +300,12 @@ public:
 
                     case EVENT_CONVERTION:
                         me->InterruptNonMeleeSpells(true);
-                                DoCast(SelectTarget(SELECT_TARGET_RANDOM, 0, 100), SPELL_CONVERSION);
+                                DoCast(SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true), SPELL_CONVERSION);
                                 events.ScheduleEvent(EVENT_CONVERTION, urand(12000, 22000));
                         break;
 
                     case EVENT_CORRUPTION:
-                        DoCast(SelectTarget(SELECT_TARGET_RANDOM, 0, 100), SPELL_CORRUPTION);
+                        DoCast(SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true), SPELL_CORRUPTION);
                                 events.ScheduleEvent(EVENT_CORRUPTION, urand(18000, 32000));
                         break;
 
