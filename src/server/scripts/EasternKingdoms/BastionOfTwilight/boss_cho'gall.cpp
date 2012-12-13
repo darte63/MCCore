@@ -187,21 +187,21 @@ public:
         void SummonCreation(uint32 entry, uint32 num) {
             for (uint32 i = 0; i < num; ++i) {
                 uint32 pos = rand() % MAX_SUMMON_POS;
-                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_CORPSE_DESPAWN, 60000);
+                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(),0, TEMPSUMMON_CORPSE_DESPAWN, 60000);
             }
         }
 
         void SummonShadow(uint32 entry, uint32 num) {
             for (uint32 i = 0; i < num; ++i) {
                 uint32 pos = rand() % MAX_SUMMON_POS_S;
-                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_CORPSE_DESPAWN, 60000);
+                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(),0, TEMPSUMMON_CORPSE_DESPAWN, 60000);
             }
         }
 
         void SummonFlamming(uint32 entry, uint32 num) {
             for (uint32 i = 0; i < num; ++i) {
                 uint32 pos = rand() % MAX_SUMMON_POS_F;
-                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(),  TEMPSUMMON_CORPSE_DESPAWN, 60000);
+                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(),0,  TEMPSUMMON_CORPSE_DESPAWN, 60000);
             }
         }
 
@@ -344,13 +344,13 @@ public:
                                 events.ScheduleEvent(EVENT_EMPOWERED_SHADOW, urand(11000, 18000));
                         break;
 
-                        if (IsHeroic()) {
+                        /*if (IsHeroic()) {
                             case EVENT_SHADOW_ORDERS:
                             SummonShadow(NPC_SHADOW_LORD, 0, TEMPSUMMON_DEAD_DESPAWN);
                                     events.ScheduleEvent(EVENT_EMPOWERED_SHADOW, urand(5000, 18000));
 
                             break;
-                        }
+                        }*/
 
                     default:
                         break;
