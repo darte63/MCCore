@@ -384,7 +384,7 @@ public:
 
             phase = newPhase;
 
-            if (phase == PHASE_NON)
+            if (phase == PHASE_NON) {
 
                 return;
 
@@ -689,7 +689,7 @@ public:
 };
 
 void AddSC_boss_chogall() {
-    new boss_chogall();
+            new boss_chogall();
             new npc_corrupting_adherent();
             new npc_blood_of_the_old_god();
             new npc_brasier_chogall();
