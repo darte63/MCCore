@@ -288,7 +288,7 @@ public:
                             if (Unit * target = SelectTarget(SELECT_TARGET_RANDOM, 0, 150, true))
                                     DoCast(target, SPELL_SUMMON_CORRUPTING_ADHERENT);
                             } else {
-                            DoCast(SelectTarget(SELECT_TARGET_RANDOM, 0, 100), SPELL_SUMMON_CORRUPTING_ADHERENT);
+                            DoCast(SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true), SPELL_SUMMON_CORRUPTING_ADHERENT);
                         }
                         events.ScheduleEvent(EVENT_SUMMON, urand(37000, 49000));
                         break;
