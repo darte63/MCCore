@@ -187,24 +187,21 @@ public:
         void SummonCreation(uint32 entry, uint32 num) {
             for (uint32 i = 0; i < num; ++i) {
                 uint32 pos = rand() % MAX_SUMMON_POS;
-                me->SummonCreature(entry, CreationPos[pos][0], CreationPos[pos][1], CreationPos[pos][2],
-                        CreationPos[pos][3], CreationPos[pos][4], CreationPos[pos][5], CreationPos[pos][6], CreationPos[pos][7], TEMPSUMMON_CORPSE_DESPAWN, 60000);
+                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_CORPSE_DESPAWN, 60000);
             }
         }
 
         void SummonShadow(uint32 entry, uint32 num) {
             for (uint32 i = 0; i < num; ++i) {
                 uint32 pos = rand() % MAX_SUMMON_POS_S;
-                me->SummonCreature(entry, ShadowPos[pos][0], ShadowPos[pos][1], ShadowPos[pos][2],
-                        ShadowPos[pos][3], TEMPSUMMON_CORPSE_DESPAWN, 60000);
+                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_CORPSE_DESPAWN, 60000);
             }
         }
 
         void SummonFlamming(uint32 entry, uint32 num) {
             for (uint32 i = 0; i < num; ++i) {
                 uint32 pos = rand() % MAX_SUMMON_POS_F;
-                me->SummonCreature(entry, FlammingPos[pos][0], FlammingPos[pos][1], FlammingPos[pos][2],
-                        FlammingPos[pos][3], TEMPSUMMON_CORPSE_DESPAWN, 60000);
+                me->SummonCreature(entry, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(),  TEMPSUMMON_CORPSE_DESPAWN, 60000);
             }
         }
 
@@ -337,10 +334,10 @@ public:
                         }*/
 
                         // Ordre de l'Ombre Phase
-                    case EVENT_SHADOW_ORDERS:
+                    /*case EVENT_SHADOW_ORDERS:
                         me->RemoveAllAuras();
                                 DoCast(me, SPELL_SHADOW_ORDER);
-                        break;
+                        break;*/
 
                     case EVENT_EMPOWERED_SHADOW:
                         DoCast(me->getVictim(), SPELL_EMPOWERED_SHADOW);
